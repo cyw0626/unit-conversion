@@ -1,14 +1,10 @@
 import React from 'react';
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Layout, Menu, theme } from 'antd';
+import Conversion from './components/Conversion/index.tsx';
 
 const { Header, Content, Sider } = Layout;
-
-const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
 
 const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
   (icon, index) => {
@@ -38,7 +34,7 @@ const App: React.FC = () => {
   return (
     <Layout>
       <Header style={{ display: 'flex', alignItems: 'center' }}>
-        <div className="demo-logo" />
+        <img src={require('./asset/logo.jpg')} width="100px" id="logo" alt=""/>
       </Header>
       <Layout style={{minHeight: '100vh'}}>
         <Sider width={200} style={{ background: colorBgContainer }}>
@@ -59,7 +55,7 @@ const App: React.FC = () => {
               background: colorBgContainer,
             }}
           >
-            Content
+            <Conversion />
           </Content>
         </Layout>
       </Layout>

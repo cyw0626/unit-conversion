@@ -93,12 +93,11 @@ const Conversion = () => {
 
     const originChange = (e) => {
         const val = e.target.value;
-        if (/^[0-9]*$/.test(val)) {
-            if (val?.length) {
-                setBtnDisabled(false);
-            }
-            setOrigin(val);
+        setOrigin(val);
+        if (val?.length && /^\d+(\.\d+)?$/.test(val)) {
+            setBtnDisabled(false);
         } else {
+            setBtnDisabled(true);
             return message.warning('请输入数字！');
         }
     };

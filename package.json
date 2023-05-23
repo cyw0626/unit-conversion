@@ -85,6 +85,7 @@
     ]
   },
   "devDependencies": {
+    "@types/node": "^20.2.3",
     "gh-pages": "^5.0.0",
     "less-loader": "^11.1.0"
   },

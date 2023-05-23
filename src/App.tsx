@@ -1,12 +1,12 @@
 import React from 'react';
+import { Layout, Menu, theme } from 'antd';
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Layout, Menu, theme } from 'antd';
 import Conversion from './components/Conversion/index.tsx';
 
 const { Header, Content, Sider } = Layout;
 
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
+const items: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
   (icon, index) => {
     const key = String(index + 1);
 
@@ -15,8 +15,8 @@ const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOu
       icon: React.createElement(icon),
       label: `subnav ${key}`,
 
-      children: new Array(4).fill(null).map((_, j) => {
-        const subKey = index * 4 + j + 1;
+      children: new Array(2).fill(null).map((_, j) => {
+        const subKey = index * 2 + j + 1;
         return {
           key: subKey,
           label: `option${subKey}`,
@@ -43,7 +43,7 @@ const App: React.FC = () => {
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
             style={{ height: '100%', borderRight: 0 }}
-            items={items2}
+            items={items}
           />
         </Sider>
         <Layout style={{ padding: '24px 24px 24px' }}>

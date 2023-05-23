@@ -217,7 +217,8 @@ const Conversion = () => {
                                     onChange={handleWeightChange}
                                 />
                                 <Tooltip title="默认为 1Kg 水蒸汽的能量">
-                                    <QuestionCircleOutlined style={{marginTop: 10, marginLeft: 10}} />
+                                    <QuestionCircleOutlined style={{marginTop: 
+                                        10, marginLeft: 10}} />
                                 </Tooltip>
                             </>
                         )

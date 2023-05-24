@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Col, Row, Input, Select, Button, message, Tooltip, Space, Statistic } from 'antd';
+import { Col, Row, Input, Select, Button, message, Tooltip, Space, Statistic, Table } from 'antd';
 import { SwapOutlined, QuestionCircleOutlined, RedoOutlined } from '@ant-design/icons';
 import { StreamData } from '../../steam-data-conversion/steam-data.ts';
 
@@ -41,6 +41,31 @@ const originOptions = [{
     value: Unit.F
 }];
 
+const columns = [{
+    title: '温度 T/℃',
+    dataIndex: 'temperature',
+    key: 'temperature',
+}, {
+    title: '绝对压强 P/kPa',
+    dataIndex: 'pressure',
+    key: 'pressure',
+}, {
+    title: '水蒸汽的密度 ρ/kg·m-3',
+    dataIndex: 'density',
+    key: 'density',
+}, {
+    title: '液体焓 H/kJ·kg-1',
+    dataIndex: 'Hf',
+    key: 'Hf',
+}, {
+    title: '汽化热 r/kJ·kg-1',
+    dataIndex: 'Hfg',
+    key: 'Hfg',
+}, {
+    title: '水蒸汽焓 H/kJ·kg-1',
+    dataIndex: 'Hg',
+    key: 'Hg',
+}]
 
 const findSuitVal = (originVal) => {
     let calData = StreamData[0] as any;
@@ -85,10 +110,10 @@ const Conversion = () => {
 
     const originChange = (e) => {
         const val = e.target.value;
-        setOrigin(val);
-        if (val?.length && /^\d+(\.\d+)?$/.test(val)) {
+        if (!val?.length || !/[^\d.-]/g.test(val)) {
+            setOrigin(val);
         } else {
-            return message.warning('请输入数字！');
+            return message.error('请输入数字！');
         }
     };
 
@@ -99,10 +124,10 @@ const Conversion = () => {
 
     const handleWeightChange = (e) => {
         const val = e.target.value;
-        if (/^[0-9]*$/.test(val)) {
+        if (!/[^\d.]/g.test(val)) {
             setWeight(val);
         } else {
-            return message.warning('请输入数字！');
+            return message.error('请输入数字！');
         }
     }
 
@@ -129,9 +154,15 @@ const Conversion = () => {
                 evolutionVal = originVal * 1000 * 4.1868 / 3600000;
                 break;
             case Unit.C:
+                if (originVal < 0 || originVal > 375) {
+                    return message.error('输入温度范围为 0℃ ~ 375℃');
+                }
                 evolutionVal = origin.length === 0 ? 0 : findSuitVal(originVal) * weight / 3600;
                 break;
             case Unit.F:
+                if (originVal < -273 || originVal > 102) {
+                    return message.error('输入温度范围为 -273℉ ~ 102℉');
+                }
                 evolutionVal = origin.length === 0 ? 0 : findSuitVal(originVal - 273) * weight / 3600;
                 break;
         }
@@ -217,6 +248,18 @@ const Conversion = () => {
                     icon={<RedoOutlined />}
                     style={{ marginLeft: 20 }}
                 >重置</Button>
+            </Row>
+            <Row style={{marginTop: 20}}>
+                <Col span={24}>
+                    <h4>蒸汽表</h4>
+                </Col>
+            </Row>
+            <Row>
+                <Table
+                    columns={columns}
+                    dataSource={StreamData}
+                    bordered
+                />
             </Row>
         </>
     );
